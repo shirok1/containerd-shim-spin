@@ -27,7 +27,7 @@ pub(crate) async fn run<T>(
     cli_args: T::CliArgs,
     app: App,
     loader: &ComponentLoader,
-) -> anyhow::Result<Pin<Box<dyn Future<Output = anyhow::Result<()>>>>>
+) -> anyhow::Result<Pin<Box<dyn Future<Output = anyhow::Result<()>> + Send>>>
 where
     T: Trigger<TriggerFactors> + 'static,
 {
