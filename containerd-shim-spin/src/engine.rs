@@ -1,8 +1,4 @@
-use std::{
-    collections::{hash_map::DefaultHasher, HashSet},
-    env,
-    hash::{Hash, Hasher},
-};
+use std::{collections::HashSet, env, hash::Hash};
 
 use anyhow::{Context, Result};
 use containerd_shim_wasm::{
@@ -221,10 +217,8 @@ impl SpinSandbox {
 }
 
 impl Compiler for SpinCompiler {
-    fn cache_key(&self) -> impl Hash + Send {
-        let mut hasher = DefaultHasher::new();
-        self.0.precompile_compatibility_hash().hash(&mut hasher);
-        hasher.finish()
+    fn cache_key(&self) -> impl Hash {
+        self.0.precompile_compatibility_hash()
     }
 
     async fn compile(&self, layers: &[WasmLayer]) -> Result<Vec<Option<Vec<u8>>>> {
